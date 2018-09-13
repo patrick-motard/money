@@ -16,7 +16,7 @@ module.exports = () => {
     const table = new Table({
         head: ['date', 'days', 'payment', 'interest', 'principal paid', 'principal' ]
     });
-    var p = 6000; // principal
+    var p = 600; // principal
     var m = 11; // first month - 1 (11 = december, 0 = january)
     var y = 2012; // first year
     var r = 0.2436; // interest rate
