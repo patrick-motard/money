@@ -16,37 +16,23 @@ module.exports = () => {
     const table = new Table({
         head: ['date', 'days', 'payment', 'interest', 'principal paid', 'principal' ]
     });
-
-    function row(year, month, principal, interestRate) {
-
-        var monthName = moment().month(month-1).format('MMM');
-        var d = days(year,month)
-        var i = interest(principal, interestRate, d)
-        return [ 
-            `${monthName} ${month}`
-            , d 
-            , 173.86
-            , i
-        ]
-    }
-
-    // table is an Array, so you can `push`, `unshift`, `splice` and friends
-    var p = 6000;
-    var m = 0;
-    var y = 2018;
-    var r = 0.2436;
-    var smp = 173.86;
+    var p = 6000; // principal
+    var m = 11; // first month - 1 (11 = december, 0 = january)
+    var y = 2012; // first year
+    var r = 0.2436; // interest rate
+    var smp = 173.86; // standar monthly payment
 
     while (p > 0) {
         m++
         var monthName = moment().month(m-1).format('MMM');
-        var d = days(y,m)
-        var i = interest(p, r, d)
-        var pp = smp - i;
+        var d = days(y,m);
+        var i = interest(p, r, d);
+        smp > p ? smp = p : smp = smp;
         p = p + i - smp;
-        p <= 0 ? p = 0 : p = p;
+        p <= 1 ? p = 0 : p = p;
+        var pp = smp - i;
         table.push([ 
-            `${monthName} ${m}`
+            `${monthName}(${m}) ${y}`
             , d 
             , smp.toFixed(2)
             , i.toFixed(2)
@@ -60,5 +46,7 @@ module.exports = () => {
         }
     }
 
-    console.log(table.toString());
+    return table.toString();
 }
+
+console.log(module.exports());
